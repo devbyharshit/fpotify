@@ -1,12 +1,22 @@
 "use client";
 
-import React from "react";
-import { TbPlaylist } from "react-icons/tb";
+import useAuthModal from "@/hooks/useAuthModal";
+import useUploadModal from "@/hooks/useUploadModal";
+import { useUser } from "@/hooks/useUser";
 import { AiOutlinePlus } from "react-icons/ai";
+import { TbPlaylist } from "react-icons/tb";
 
 const Library = () => {
+	const { onOpen: onAuthModalOpen } = useAuthModal();
+	const { onOpen: onUploadModalOpen } = useUploadModal();
+	const { user } = useUser();
+
 	const handleOnClick = () => {
-		//on click open modal
+		if (!user) return onAuthModalOpen();
+
+		// TODO: check for subscription
+
+		return onUploadModalOpen()
 	};
 
 	return (
@@ -18,9 +28,9 @@ const Library = () => {
 				</div>
 				<AiOutlinePlus className="text-neutral-400 hover:text-white transition cursor-pointer" size={20} onClick={handleOnClick} />
 			</div>
-            <div className="flex flex-col gap-y-2 mt-4 px-3">List of playlists</div>
+			<div className="flex flex-col gap-y-2 mt-4 px-3">List of playlists</div>
 		</div>
-	); 
+	);
 };
 
 export default Library;
